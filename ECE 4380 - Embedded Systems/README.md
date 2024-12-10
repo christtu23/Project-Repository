@@ -1,79 +1,63 @@
-## Example Summary
+## MSP432 Embedded Command Interface
 
-Example that uses the UART driver to echo back to the console.
+This project implements a command-line interface for the MSP432E401Y microcontroller, featuring extensive GPIO control, timer management, callback systems, register operations, and audio generation capabilities. The system provides a robust terminal interface with command history navigation and comprehensive error handling.
 
-## Peripherals & Pin Assignments
+## Core System Features
+- UART0 for primary terminal interface (115200 baud)
+- UART7 for secondary communication channel
+- Binary data mode support
+- Command history with up/down arrow navigation
 
-When this project is built, the SysConfig tool will generate the TI-Driver
-configurations into the __ti_drivers_config.c__ and __ti_drivers_config.h__
-files. Information on pins and resources used is present in both generated
-files. Additionally, the System Configuration file (\*.syscfg) present in the
-project may be opened with SysConfig's graphical user interface to determine
-pins and resources used.
+## GPIO Control
+- Control of 4 onboard LEDs
+- 2 switch inputs with interrupt capability
+- Additional GPIO pins (PK5, PD4) for extended functionality
+- Read, write, and toggle operations
+- Real-time status monitoring
 
-* `CONFIG_GPIO_LED_0` - Indicates that the board was initialized within `main()`
-* `CONFIG_UART_0` - Used to echo characters from host serial session
+## Timer System
+- Configurable periodic timer with millisecond precision
+- Minimum period of 5ms
+- Continuous callback mode support
+- Timer-based event triggering
 
-## BoosterPacks, Board Resources & Jumper Settings
+## Callback System
+- Independent callback channels
+- Configurable execution count (-1 for infinite)
+- Queue-based payload system
+- Overflow protection
 
-For board specific jumper settings, resources and BoosterPack modifications,
-refer to the __Board.html__ file.
+## Ticker System
+- 16 independent ticker channels
+- Configurable initial delay and period
+- Support for periodic command execution
+- Count-based or infinite execution modes
 
-> If you're using an IDE such as Code Composer Studio (CCS) or IAR, please
-refer to Board.html in your project directory for resources used and
-board-specific jumper settings.
+## Register Operations
+- 32 general-purpose registers
+- Comprehensive arithmetic operations
+- Immediate value support
+- Register status monitoring
 
-The Board.html can also be found in your SDK installation:
+## Script System
+- 64-line script storage
+- Command sequencing capability
+- Conditional execution support
+- Script execution controls
+- Remark support for documentation
 
-        <SDK_INSTALL_DIR>/source/ti/boards/<BOARD>
+## Conditional Executions
+- IF-THEN-ELSE style command structure
+- Comparison operations (>, =, <)
+- Support for register and immediate values
+- Nested condition capability
 
+## Audio Generation
+- Sine wave generation through DAC
+- Configurable frequency output
+- SPI-based DAC control (DAC8311)
+- Audio amplifier control
+- Nyquist limit protection
 
-## Example Usage
-
-* Open a serial session (e.g. [`PuTTY`](http://www.putty.org/ "PuTTY's
-Homepage"), etc.) to the appropriate COM port.
-    * The COM port can be determined via Device Manager in Windows or via
-`ls /dev/tty*` in Linux.
-
-The connection should have the following settings
-```
-    Baud-rate:  115200
-    Data bits:       8
-    Stop bits:       1
-    Parity:       None
-    Flow Control: None
-```
-
-* Run the example. `CONFIG_GPIO_LED_0` turns ON to indicate driver
-initialization is complete.
-
-* The target echoes back any character that is typed in the serial session.
-
-* If the serial session is started before the target completes initialization,
-the following is displayed:
-`Echoing characters:`
-
-## Application Design Details
-
-* This example shows how to initialize the UART driver in blocking read
-and write mode with no data processing and echo characters back to a console.
-
-* A single thread, `echo`, reads a character from `CONFIG_UART_0` and writes it
-back.
-
-TI-RTOS:
-
-* When building in Code Composer Studio, the kernel configuration project will
-be imported along with the example. The kernel configuration project is
-referenced by the example, so it will be built first. The "release" kernel
-configuration is the default project used. It has many debug features disabled.
-These feature include assert checking, logging and runtime stack checks. For a
-detailed difference between the "release" and "debug" kernel configurations and
-how to switch between them, please refer to the SimpleLink MCU SDK User's
-Guide. The "release" and "debug" kernel configuration projects can be found
-under &lt;SDK_INSTALL_DIR&gt;/kernel/tirtos/builds/&lt;BOARD&gt;/(release|debug)/(ccs|gcc).
-
-FreeRTOS:
-
-* Please view the `FreeRTOSConfig.h` header file for example configuration
-information.
+## Error Handling
+- Comprehensive error tracking for all parsable commands.
