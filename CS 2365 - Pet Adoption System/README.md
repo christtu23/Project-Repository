@@ -1,0 +1,2 @@
+## Overview
+A Java-based command-line application that manages pet adoptions for an animal shelter. This system allows users to view available pets, process adoption requests, and track adoption status. The Pet Adoption System is designed to streamline the pet adoption process by providing a simple interface for both shelter staff and potential adopters. The system maintains records of available animals (cats and dogs), handles adoption requests, and tracks completed adoptions.
